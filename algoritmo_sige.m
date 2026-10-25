@@ -1,3 +1,4 @@
+% Isneyler Mosquera Preciado
 clc;                    % Limpia la ventana de comandos.
 clear;                  % Borra las variables del espacio de trabajo.
 
@@ -110,6 +111,6 @@ end
 
 %% Resumen de las 24 Horas
 % Organiza los resultados en una tabla para visualizar facilmente.
-Resultados = table(Horas', P_solar', P_eolica', P_total', P_demanda', Balance', SOC_horario', Estado', Escuela', Bombeo', Alumbrado','VariableNames', {'Hora','Solar_kW','Eolica_kW','GeneracionTotal_kW','Demanda_kW','Balance_kWh','SOC','EstadoEnergetico','Escuela','Bombeo Agrícola','Alumbrado'});
+Resultados = table(Horas', P_solar', P_eolica', P_total', P_demanda', Balance', SOC_horario', Estado', Escuela', Bombeo', Alumbrado','VariableNames', {'Hora','Solar (kw)','Eolica (kw)','GeneracionTotal (kw)','Demanda (kw)','Balance (kWh)','SOC','Estado Energetico','Escuela','Bombeo Agrícola','Alumbrado'});
 % Muestra la tabla en la ventana de comandos.
 disp(Resultados);
