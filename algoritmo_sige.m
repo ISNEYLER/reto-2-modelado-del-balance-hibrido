@@ -41,7 +41,7 @@ Alumbrado = cell(1,24);           % Estado del alumbrado publico.
 % Inicializa el SOC antes de iniciar el ciclo horario.
 SOC = SOC_inicial;
 
-%% 2. BUCLE DE SIMULACION DE 24 HORAS
+%% BUCLE DE SIMULACION DE 24 HORAS
 for h = 1:24
     % Obtiene la generacion total y la demanda de la hora actual.
     E_gen = P_total(h);       % Generacion hibrida durante una hora (kWh).
@@ -53,7 +53,7 @@ for h = 1:24
     % Guarda el SOC con el que comienza la hora.
     SOC_actual = SOC;
 
-    %% 3. DETECCIÓN DE SUPERAVIT O DEFICIT
+    %% DETECCIÓN DE SUPERAVIT O DEFICIT
     if E_gen >= E_dem
         % SUPERAVIT: la generacion cubre toda la demanda comunitaria.
         Excedente = E_gen - E_dem;  % Calcula la energia sobrante (kWh).
@@ -108,11 +108,10 @@ for h = 1:24
     SOC_horario(h) = SOC;
 end
 
-%% 5. TABLA RESUMEN DE LAS 24 HORAS
+%% TABLA RESUMEN DE LAS 24 HORAS
 % Organiza los resultados en una tabla para visualizar facilmente.
 Resultados = table(Horas', P_solar', P_eolica', P_total', P_demanda', Balance', SOC_horario', Estado', Escuela', Bombeo', Alumbrado','VariableNames', {'Hora','Solar_kW','Eolica_kW','GeneracionTotal_kW','Demanda_kW','Balance_kWh','SOC','EstadoEnergetico','Escuela','Bombeo Agrícola','Alumbrado'});
 % Muestra la tabla en la ventana de comandos.
 disp(Resultados);  
 
 %% FIN DEL PROGRAMA
-fprintf('\nSimulacion de 24 horas finalizada.\n');
