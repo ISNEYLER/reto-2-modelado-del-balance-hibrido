@@ -1,7 +1,7 @@
 clc;                    % Limpia la ventana de comandos.
-clear;                  % Elimina las variables del espacio de trabajo.
+clear;                  % Borra las variables del espacio de trabajo.
 
-%% CONFIGURACION E INICIALIZACIÓN DEL SISTEMA
+%% Configuración e Inicialización
 Horas = 1:24;            % Define las 24 horas de simulacion.
 
 % Potencia solar generada en cada hora (kW).
@@ -41,7 +41,7 @@ Alumbrado = cell(1,24);           % Estado del alumbrado publico.
 % Inicializa el SOC antes de iniciar el ciclo horario.
 SOC = SOC_inicial;
 
-%% BUCLE DE SIMULACION DE 24 HORAS
+%% Bucle de simulación de 24 Horas
 for h = 1:24
     % Obtiene la generacion total y la demanda de la hora actual.
     E_gen = P_total(h);       % Generacion hibrida durante una hora (kWh).
@@ -53,7 +53,7 @@ for h = 1:24
     % Guarda el SOC con el que comienza la hora.
     SOC_actual = SOC;
 
-    %% DETECCIÓN DE SUPERAVIT O DEFICIT
+    %% Detección de Superavit o Deficit
     if E_gen >= E_dem
         % SUPERAVIT: la generacion cubre toda la demanda comunitaria.
         Excedente = E_gen - E_dem;  % Calcula la energia sobrante (kWh).
@@ -71,7 +71,7 @@ for h = 1:24
         Estado{h} = 'SUPERAVIT';
 
     else
-        % DEFICIT: la demanda supera la generacion disponible.
+        % Deficit: la demanda supera la generacion disponible.
         Faltante = E_dem - E_gen;  % Calcula la energia faltante (kWh).
 
         % Calcula el SOC despues de cubrir el deficit con la bateria.
@@ -82,21 +82,21 @@ for h = 1:24
 
         % Aplica el protocolo de desconexion segun el SOC.
         if SOC > Umbral_alerta
-            % RUTA SEGURA: SOC superior al 40 %.
+            % Ruta segura: SOC superior al 40 %.
             Escuela{h} = 'ACTIVA';
             Bombeo{h} = 'ACTIVO';
             Alumbrado{h} = 'ACTIVO';
             Estado{h} = 'DEFICIT - SEGURO';
 
         elseif SOC > Umbral_emergencia
-            % RUTA DE ALERTA: SOC mayor que 20 % y menor o igual a 40 %.
+            % Ruta de alerta: SOC mayor que 20 % y menor o igual a 40 %.
             Escuela{h} = 'ACTIVA';
             Bombeo{h} = 'ACTIVO';
             Alumbrado{h} = 'SUSPENDIDO';
             Estado{h} = 'DEFICIT - ALERTA';
 
         else
-            % RUTA DE EMERGENCIA: SOC igual o inferior al 20 %.
+            % Ruta de emergencia: SOC igual o inferior al 20 %.
             Escuela{h} = 'ACTIVA';
             Bombeo{h} = 'SUSPENDIDO';
             Alumbrado{h} = 'SUSPENDIDO';
@@ -108,10 +108,8 @@ for h = 1:24
     SOC_horario(h) = SOC;
 end
 
-%% TABLA RESUMEN DE LAS 24 HORAS
+%% Resumen de las 24 Horas
 % Organiza los resultados en una tabla para visualizar facilmente.
 Resultados = table(Horas', P_solar', P_eolica', P_total', P_demanda', Balance', SOC_horario', Estado', Escuela', Bombeo', Alumbrado','VariableNames', {'Hora','Solar_kW','Eolica_kW','GeneracionTotal_kW','Demanda_kW','Balance_kWh','SOC','EstadoEnergetico','Escuela','Bombeo Agrícola','Alumbrado'});
 % Muestra la tabla en la ventana de comandos.
-disp(Resultados);  
-
-%% FIN DEL PROGRAMA
+disp(Resultados);
